@@ -5,7 +5,8 @@ const express = require("express"),
   uuid = require("uuid"),
   fs = require("fs"),
   path = require("path");
-var app = express();
+const app = express();
+app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -29,13 +30,8 @@ let users = [
 let movies = [
   {
     Title: "Pulp Fiction",
-    Description:
-      "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
     Director: {
       Name: "Quentin Tarantino",
-      BirthYear: "1963",
-      Biography:
-        "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New York, and his mother, Connie (McHugh), is a nurse from Tennessee. Quentin moved with his mother to Torrance, California, when he was four years old.",
     },
     Genre: {
       Name: "Crime",
@@ -43,13 +39,8 @@ let movies = [
   },
   {
     Title: "Fight Club",
-    Description:
-      "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
     Director: {
       Name: "David Fincher",
-      BirthYear: "1962",
-      Biography:
-        "David Fincher was born in 1962 in Denver, Colorado, and was raised in Marin County, California. When he was 18 years old he went to work for John Korty at Korty Films in Mill Valley. He subsequently worked at ILM (Industrial Light and Magic) from 1981-1983. Fincher left ILM to direct TV commercials and music videos after signing with N. Lee Lacy in Hollywood. He went on to found Propaganda in 1987 with fellow directors Dominic Sena, Greg Gold and Nigel Dick. Fincher has directed TV commercials for clients that include Nike, Coca-Cola, Budweiser, Heineken, Pepsi, Levi's, Converse, AT&T and Chanel. He has directed music videos for Madonna, Sting, The Rolling Stones, Michael Jackson, Aerosmith, George Michael, Iggy Pop, The Wallflowers, Billy Idol, Steve Winwood, The Motels and, most recently, A Perfect Circle. ",
     },
     Genre: {
       Name: "Crime",
@@ -57,13 +48,8 @@ let movies = [
   },
   {
     Title: "Se7en",
-    Description:
-      "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives.",
     Director: {
       Name: "David Fincher",
-      BirthYear: "1962",
-      Biography:
-        "David Fincher was born in 1962 in Denver, Colorado, and was raised in Marin County, California. When he was 18 years old he went to work for John Korty at Korty Films in Mill Valley. He subsequently worked at ILM (Industrial Light and Magic) from 1981-1983. Fincher left ILM to direct TV commercials and music videos after signing with N. Lee Lacy in Hollywood. He went on to found Propaganda in 1987 with fellow directors Dominic Sena, Greg Gold and Nigel Dick. Fincher has directed TV commercials for clients that include Nike, Coca-Cola, Budweiser, Heineken, Pepsi, Levi's, Converse, AT&T and Chanel. He has directed music videos for Madonna, Sting, The Rolling Stones, Michael Jackson, Aerosmith, George Michael, Iggy Pop, The Wallflowers, Billy Idol, Steve Winwood, The Motels and, most recently, A Perfect Circle.",
     },
     Genre: {
       Name: "Crime",
@@ -71,14 +57,8 @@ let movies = [
   },
   {
     Title: "Kill Bill: Vol.1",
-    Description:
-      "After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.",
-
     Director: {
       Name: "Quentin Tarantino",
-      BirthYear: "1963",
-      Biography:
-        "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New York, and his mother, Connie (McHugh), is a nurse from Tennessee. Quentin moved with his mother to Torrance, California, when he was four years old.",
     },
     Genre: {
       Name: "Crime",
@@ -86,13 +66,8 @@ let movies = [
   },
   {
     Title: "Dead Poets Society",
-    Description:
-      "Maverick teacher John Keating uses poetry to embolden his boarding school students to new heights of self-expression.",
     Director: {
       Name: "Peter Weir",
-      BirthYear: "1944",
-      Biography:
-        "Peter Weir was born on August 21, 1944 in Sydney, New South Wales, Australia. He is a director and writer, known for Master & Commander: Bis ans Ende der Welt (2003), The Way Back (2010) and Der einzige Zeuge (1985). He has been married to Wendy Stites since 1966.",
     },
     Genre: {
       Name: "Drama",
@@ -100,13 +75,8 @@ let movies = [
   },
   {
     Title: "The King's Speech",
-    Description:
-      "The story of King George VI, his impromptu ascension to the throne of the British Empire in 1936, and the speech therapist who helped the unsure monarch overcome his stammer.",
     Director: {
       Name: "Tom Hooper",
-      BirthYear: "1972",
-      Biography:
-        "Tom Hooper was educated at one of England's most prestigious schools, Westminster. His first film, Runaway Dog, was made when he was 13 years old and shot on a Clockwork 16mm Bolex camera, using 100 feet of film.",
     },
     Genre: {
       Name: "Drama",
@@ -114,13 +84,8 @@ let movies = [
   },
   {
     Title: "Insomnia",
-    Description:
-      "Two Los Angeles homicide detectives are dispatched to a northern town where the sun doesn't set to investigate the methodical murder of a local teen.",
     Director: {
       Name: "Christopher Nolan",
-      BirthYear: "1970",
-      Biography:
-        "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. ",
     },
     Genre: {
       Name: "Thriller",
@@ -128,13 +93,8 @@ let movies = [
   },
   {
     Title: "Lost in Translation",
-    Description:
-      "A faded movie star and a neglected young woman form an unlikely bond after crossing paths in Tokyo.",
     Director: {
       Name: "Sofia Coppola",
-      BirthYear: "1971",
-      Biography:
-        "Sofia Coppola is a director, known for Somewhere - Verloren in Hollywood (2010), Lost in Translation: Zwischen den Welten (2003), and Marie Antoinette (2006). She has been married to Thomas Mars since August 27, 2011.",
     },
     Genre: {
       Name: "Comedy",
@@ -142,13 +102,8 @@ let movies = [
   },
   {
     Title: "The Virgin Suicides",
-    Description:
-      "A group of male friends become obsessed with five mysterious sisters who are sheltered by their strict, religious parents in suburban Detroit in the mid 1970s.",
     Director: {
       Name: "Sofia Coppola",
-      BirthYear: "1971",
-      Biography:
-        "Sofia Coppola is a director, known for Somewhere - Verloren in Hollywood (2010), Lost in Translation: Zwischen den Welten (2003), and Marie Antoinette (2006). She has been married to Thomas Mars since August 27, 2011.",
     },
     Genre: {
       Name: "Drama",
@@ -156,17 +111,44 @@ let movies = [
   },
   {
     Title: "Idiocracy",
-    Description:
-      "Private Joe Bauers, a decisively average American, is selected as a guinea pig for a top-secret hibernation program but is forgotten, awakening to a future so incredibly moronic he's easily the most intelligent person alive.",
     Director: {
       Name: "Mike Judge",
-      BirthYear: "1962",
-      Biography:
-        "Mike Judge is an American actor, animator, film director, screenwriter, and television producer. In 1962, Judge was born in Guayaquil, the largest city of Ecuador and the country's main port. His parents were expatriate Americans. His father was archaeologist William James Judge and his mother was librarian Margaret Yvonne Blue.",
     },
     Genre: {
       Name: "Comedy",
     },
+  },
+];
+
+let genres = [
+  {
+    name: "Drama",
+    description:
+      "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.",
+  },
+  {
+    name: "Crime",
+    description:
+      "Crime films, in the broadest sense, is a film genre inspired by and analogous to the crime fiction literary genre. Films of this genre generally involve various aspects of crime and its detection. Stylistically, the genre may overlap and combine with many other genres, such as drama or gangster film,[1] but also include comedy, and, in turn, is divided into many sub-genres, such as mystery, suspense or noir.",
+  },
+  {
+    name: "Thriller",
+    description:
+      "Thriller is a genre of fiction, having numerous, often overlapping subgenres. Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety.",
+  },
+
+  {
+    name: "Comedy",
+    description:
+      "A comedy film is a category of film which emphasizes humor. These films are designed to make the audience laugh through amusement.",
+  },
+];
+
+let directors = [
+  {
+    name: "David Fincher",
+    birthdate: "28.07.1962",
+    bio: "David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film.",
   },
 ];
 
@@ -184,48 +166,49 @@ app.get("/movies", (req, res) => {
   res.status(200).json(movies);
 });
 
-// Read: Get one movie, by title
+// Get one movie, by title
 app.get("/movies/:title", (req, res) => {
   const { title } = req.params;
-  const movie = movies.find((movie) => movies.Title === title);
+  const movie = movies.find((movie) => movie.Title === title);
+
   if (movie) {
     res.status(200).json(movie);
   } else {
-    res.status(400).send("Sorry, no such movie.");
+    res.status(400).send("No such movie");
   }
 });
-// Read: get info about genre, by genre name
+
+// Get movie by genre
 app.get("/genres/:name", (req, res) => {
-  const { genreName } = req.params;
-  const genre = genre.find((Genre) => genre.Name === genreName);
+  res.json(genres.find((genre) => genre.name === req.params.name));
+
   if (genre) {
-    res.status(200).json(genre);
+    res.status(200).json(description);
   } else {
-    res.status(400).send("Sorry, no such genre.");
+    res.status(400).send("There is no such genre.");
   }
 });
-// Read: get info about director, by director's name
-app.get("/directors/:name", (req, res) => {
-  const { directorsName } = req.params;
-  const info = info.find((Director) => directors.Name === directorsName);
-  if (info) {
-    res.status(200).json(info);
+
+// get info about director, by director's name
+app.get("/directors/:Name", (req, res) => {
+  res.json(directors.find((director) => director.name === req.params.Name));
+
+  if (directors) {
+    res.status(200).json(directors);
   } else {
-    res.status(400).send("Sorry, no such director.");
+    res.status(400).send("No such directors");
   }
 });
 
 //Create new user
 app.post("/users", (req, res) => {
-  let newUser = req.body;
-
-  if (!newUser.name) {
-    const message = "Missing name in request body";
-    res.status(400).send(message);
-  } else {
+  const newUser = req.body;
+  if (newUser.name) {
     newUser.id = uuid.v4();
     users.push(newUser);
-    res.status(201).send(newUser);
+    res.status(201).json(newUser);
+  } else {
+    res.status(400).send("user needs name");
   }
 });
 
@@ -233,57 +216,61 @@ app.post("/users", (req, res) => {
 app.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
-  let user = users.find((user) => user.id == id);
+
+  let user = users.find((user) => user.id === id);
   if (user) {
     user.name = updatedUser;
     res.status(200).json(user);
   } else {
-    res.status(400).send("No such user");
+    res.status(400).send("This user does not exist.");
   }
 });
 
 //Add movie to favouriteMovies list
 app.post("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
-  let user = users.find((user) => user.id == id);
+
+  let user = users.find((user) => user.id === id);
   if (user) {
     user.favouriteMovies.push(movieTitle);
-    res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);
+    res
+      .status(200)
+      .send(`${movieTitle} has been added to your favourite's list.`);
   } else {
-    res.status(400).send("No such user");
+    res.status(400).send("This user does not exist.");
   }
 });
 
 //Delete movie from user's favouriteMovies list
 app.delete("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
-  let user = users.find((user) => user.id == id);
+
+  let user = users.find((user) => user.id === id);
   if (user) {
     user.favouriteMovies = user.favouriteMovies.filter(
       (title) => title !== movieTitle
     );
     res
       .status(200)
-      .send(`${movieTitle} has been removed from user ${id}'s array`);
+      .send(`${movieTitle} has been removed from your favourite's list.`);
   } else {
-    res.status(400).send("No such user");
+    res.status(400).send("This user does not exist.");
   }
 });
+
 //Delete user
 app.delete("/users/:id", (req, res) => {
   const { id } = req.params;
-  let user = users.find((user) => user.id == id);
+
+  let user = users.find((user) => user.id === id);
   if (user) {
     users = users.filter((user) => user.id !== id);
-    res.status(200).send(`User account ${id} has been deleted`);
+    res.status(200).send(`user ${id} has been removed`);
   } else {
-    res.status(400).send("No such user");
+    res.status(400).send("This user does not exist.");
   }
 });
-//Read
-app.get("/", (req, res) => {
-  res.send("Welcome to myFlix Movie App!");
-});
+
 //serving static files
 app.use(express.static("public"));
 //Morgan request logger
@@ -294,7 +281,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 //error-handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(500).send("Something went wrong!");
 });
 
 // listen for requests
