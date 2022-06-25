@@ -14,6 +14,7 @@ app.use(
   })
 );
 
+//Define parameters
 let users = [
   {
     id: "1",
@@ -152,6 +153,14 @@ let directors = [
   },
 ];
 
+// middleware serving static files
+app.use(express.static("public"));
+//Morgan request logger
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
+  flags: "a",
+});
+app.use(morgan("combined", { stream: accessLogStream }));
+
 // GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to Movie Info!");
@@ -227,32 +236,28 @@ app.put("/users/:id", (req, res) => {
 });
 
 //Add movie to favouriteMovies list
-app.post("/users/:id/:movieTitle", (req, res) => {
-  const { id, movieTitle } = req.params;
+app.put("/users/:id/favourite/:movieId", (req, res) => {
+  const { id, movieId } = req.params;
 
   let user = users.find((user) => user.id === id);
   if (user) {
-    user.favouriteMovies.push(movieTitle);
-    res
-      .status(200)
-      .send(`${movieTitle} has been added to your favourite's list.`);
+    user.favouriteMovies.push(movieId);
+    res.status(200).send(`${movieId} has been added to your favourite's list.`);
   } else {
     res.status(400).send("This user does not exist.");
   }
 });
 
 //Delete movie from user's favouriteMovies list
-app.delete("/users/:id/:movieTitle", (req, res) => {
-  const { id, movieTitle } = req.params;
+app.delete("/users/:id/favourite/:movieId", (req, res) => {
+  const { id, movieId } = req.params;
 
   let user = users.find((user) => user.id === id);
   if (user) {
-    user.favouriteMovies = user.favouriteMovies.filter(
-      (title) => title !== movieTitle
-    );
+    user.favouriteMovies = user.favouriteMovies.filter((id) => id !== movieId);
     res
       .status(200)
-      .send(`${movieTitle} has been removed from your favourite's list.`);
+      .send(`${movieId} has been removed from your favourite's list.`);
   } else {
     res.status(400).send("This user does not exist.");
   }
@@ -271,13 +276,6 @@ app.delete("/users/:id", (req, res) => {
   }
 });
 
-//serving static files
-app.use(express.static("public"));
-//Morgan request logger
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
-  flags: "a",
-});
-app.use(morgan("combined", { stream: accessLogStream }));
 //error-handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
