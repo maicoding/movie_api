@@ -16,96 +16,206 @@
   <main>
   <h1>A new movie api is created here.</h1>
   <table>
-    <thead>
-      <tr>
-        <th>Feature</th>
-        <th>URL</th>
-        <th>Request</th>
-        <th>Response</th>
-        <th>Data Method</th>
-      </tr>
-      <tr>
-        <td>Return a list of all movies to the user
-        </td>
+    <tr>
+        <td>Request</td>
+        <td>URL</td>
+        <td>"HTTP</td>
+    </tr>
+    <tr>
+        <td>Method"</td>
+        <td>Request body data format</td>
+        <td>Response body data format</td>
+    </tr>
+    <tr>
+        <td>Get a list of movies</td>
         <td>/movies</td>
         <td>GET</td>
-        <td>A JSON object holding data over all movies</td>
-      </tr>
-      <tr>
-        <td>Return data about a single movie by title to the user</td>
-        <td>/movies/:Title</td>
+        <td>None</td>
+        <td>A JSON object holding data about all the movies</td>
+    </tr>
+    <tr>
+        <td>Get data about a single movie by title</td>
+        <td>/movies/[Title]</td>
         <td>GET</td>
-        <td>A JSON object for individual movie passed in URL param</td>
-      </tr>
-      <tr>
-        <td>Return data about a genre (description) by name
-        </td>
-        <td>/genres/:name</td>
-        <td>movies/genres/:name</td>
+        <td>None</td>
+        <td>"A JSON object holding data about a single movie, containing a title,  director name, and genres property. Example:</td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""Title"": ""Insomnia"",</td>
+    </tr>
+    <tr>
+        <td>    ""Director"": {</td>
+    </tr>
+    <tr>
+        <td>        ""Name"": ""Christopher Nolan""</td>
+    </tr>
+    <tr>
+        <td>    },</td>
+    </tr>
+    <tr>
+        <td>    ""Genre"": {</td>
+    </tr>
+    <tr>
+        <td>        ""Name"": ""Thriller""</td>
+    </tr>
+    <tr>
+        <td>    }</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Get information on a movie genre</td>
+        <td>/genres/[genre]</td>
         <td>GET</td>
-        <td>A JSON object for individual genre passed in URL param</td>
-      </tr>
-      <tr>
-        <td>Return data about a director by name</td>
-        <td>directors/:Name</td>
-        <td>movies/directors/:Name</td>
+        <td>None</td>
+        <td>"A JSON object holding data about a genre, containing a name, and a description. Example: </td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""name"": ""Drama"",</td>
+    </tr>
+    <tr>
+        <td>    ""description"": ""Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.""</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Get information on a single director by name</td>
+        <td>/directors/[name]</td>
         <td>GET</td>
-        <td>A JSON object for director passed in URL param</td>
-      </tr>
-      <tr>
-        <td>Allow new users to register</td>
+        <td>None</td>
+        <td>"A JSON object holding data about a director, containing a name, a birth date and biographical information. Example: </td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""name"": ""David Fincher"",</td>
+    </tr>
+    <tr>
+        <td>    ""birthdate"": ""28.07.1962"",</td>
+    </tr>
+    <tr>
+        <td>    ""bio"": ""David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film.""</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Add a user</td>
         <td>/users</td>
-        <td>POST <br>w/ JSON body param {"name": "", "age":""}</td>
         <td>POST</td>
-        <td>Adds new user JSON data to user JSON list</td>
-        <td>JSON required<br>{<br>
-          Username: { type: String, required: true },<br>
-          Password: { type: String, required: true },<br>
-          Email: { type: String, required: true },<br>
-          Birthday: Date,<br>
-          FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],<br>
-        }</td>
-      </tr>
-      <tr>
-        <td>Allow users to update their user info (username)</td>
-        <td>/users/:name</td>
-        <td>/users/:Username</td>
+        <td>"A JSON object holding data about the user to add, structured like:</td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""name"": ""Niklas"",</td>
+    </tr>
+    <tr>
+        <td>    ""favouriteMovies"":[""Fight Club""]</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID:</td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""name"": ""Niklas"",</td>
+    </tr>
+    <tr>
+        <td>    ""favouriteMovies"": [</td>
+    </tr>
+    <tr>
+        <td>        ""Fight Club""</td>
+    </tr>
+    <tr>
+        <td>    ],</td>
+    </tr>
+    <tr>
+        <td>    ""id"": ""6f583c9e-ff2d-4460-9fb3-686f8b713395""</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Update a user name</td>
+        <td>/users/[id]</td>
         <td>PUT</td>
-        <td>A text message indicating whether the username was successfully updated</td>
-        <td>JSON required with updated data<br>{<br>
-          Username: String,<br>
-          (required)
-          Password: String,<br>
-          (required)
-          Email: String,<br>
-          (required)
-          Birthday: Date<br>
-        }</td>
-      </tr>
-      <tr>
-        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added)</td>
-        <td>/users/:name/favorites/:movieTitle</td>
-        <td>/users/:Username/movies/:MovieID</td>
-        <td>POST</td>
-        <td>A text message confirming the movie in URL param was added successfully</td>
-      </tr>
-      <tr>
-        <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed)</td>
-        <td>/users/:name/favorites/:movieTitle</td>
-        <td>/users/:Username/movies/:MovieID</td>
+        <td>"A JSON object holding data about the user name to change, structured like:</td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""name"":""Franz""</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID:</td>
+    </tr>
+    <tr>
+        <td>{</td>
+    </tr>
+    <tr>
+        <td>    ""id"": ""1"",</td>
+    </tr>
+    <tr>
+        <td>    ""name"": {</td>
+    </tr>
+    <tr>
+        <td>        ""name"": ""Franz""</td>
+    </tr>
+    <tr>
+        <td>    },</td>
+    </tr>
+    <tr>
+        <td>    ""favouriteMovies"": [</td>
+    </tr>
+    <tr>
+        <td>        ""Pulp Fiction"",</td>
+    </tr>
+    <tr>
+        <td>        ""Insomnia""</td>
+    </tr>
+    <tr>
+        <td>    ]</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Update favourite movie list</td>
+        <td>/users/[id]/favourite/[movieId]</td>
+        <td>PUT</td>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully added</td>
+    </tr>
+    <tr>
+        <td>Delete movie from favourite movie list</td>
+        <td>/users/[id]/favourite/[movieId]</td>
         <td>DELETE</td>
-        <td>A text message confirming the movie in URL param was removed successfully</td>
-        <td>A text message confirming the movie in URL param was removed successfully</tr>td>
-      </tr>
-      <tr>
-        <td>Allow existing users to deregister (showing only a text that a user email has been removed)</td>
-        <td>/users/:name</td>
-        <td>/users/:Username</td>
-        <td>DELETE</td>
-        <td>A text message confirming the user was deregistered</td>
-      </tr>
-    </thead>
-  </table>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully deleted</td>
+    </tr>
+    <tr>
+        <td>Delete a user by ID</td>
+        <td>/users/[id]</td>
+        <td></td>
+        <td>None</td>
+        <td>A text message confirming that the user was deleted</td>
+    </tr>
+</table>
 </main>
 <footer>
 </footer>
