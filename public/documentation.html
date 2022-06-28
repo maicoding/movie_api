@@ -18,11 +18,8 @@
   <table>
     <tr>
         <td>Request</td>
-        <td>URL</td>
-        <td>"HTTP</td>
-    </tr>
-    <tr>
-        <td>Method"</td>
+        <td>URL HTTP</td>
+        <td>Method</td>
         <td>Request body data format</td>
         <td>Response body data format</td>
     </tr>
@@ -38,31 +35,7 @@
         <td>/movies/[Title]</td>
         <td>GET</td>
         <td>None</td>
-        <td>"A JSON object holding data about a single movie, containing a title,  director name, and genres property. Example:</td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""Title"": ""Insomnia"",</td>
-    </tr>
-    <tr>
-        <td>    ""Director"": {</td>
-    </tr>
-    <tr>
-        <td>        ""Name"": ""Christopher Nolan""</td>
-    </tr>
-    <tr>
-        <td>    },</td>
-    </tr>
-    <tr>
-        <td>    ""Genre"": {</td>
-    </tr>
-    <tr>
-        <td>        ""Name"": ""Thriller""</td>
-    </tr>
-    <tr>
-        <td>    }</td>
+        <td>"A JSON object holding data about a single movie, containing a title,  director name, and genres property. Example: { "Title": "Insomnia", } "Director": {"Name": "Christopher Nolan" "Genre": { "Name": "Thriller"}</td>
     </tr>
     <tr>
         <td>}"</td>
@@ -72,78 +45,28 @@
         <td>/genres/[genre]</td>
         <td>GET</td>
         <td>None</td>
-        <td>"A JSON object holding data about a genre, containing a name, and a description. Example: </td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""name"": ""Drama"",</td>
-    </tr>
-    <tr>
-        <td>    ""description"": ""Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.""</td>
-    </tr>
-    <tr>
-        <td>}"</td>
+        <td>"A JSON object holding data about a genre, containing a name, and a description. Example: { "name": "Drama", "description": "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone."</td>
     </tr>
     <tr>
         <td>Get information on a single director by name</td>
         <td>/directors/[name]</td>
         <td>GET</td>
         <td>None</td>
-        <td>"A JSON object holding data about a director, containing a name, a birth date and biographical information. Example: </td>
+        <td>"A JSON object holding data about a director, containing a name, a birth date and biographical information. Example: { "name": "David Fincher", "birthdate": "28.07.1962", "bio": "David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film."}"</td>
     </tr>
     <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""name"": ""David Fincher"",</td>
-    </tr>
-    <tr>
-        <td>    ""birthdate"": ""28.07.1962"",</td>
-    </tr>
-    <tr>
-        <td>    ""bio"": ""David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film.""</td>
-    </tr>
-    <tr>
-        <td>}"</td>
+        <td>Get a list of all users</td>
+        <td>/users</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about all users</td>
     </tr>
     <tr>
         <td>Add a user</td>
         <td>/users</td>
         <td>POST</td>
-        <td>"A JSON object holding data about the user to add, structured like:</td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""name"": ""Niklas"",</td>
-    </tr>
-    <tr>
-        <td>    ""favouriteMovies"":[""Fight Club""]</td>
-    </tr>
-    <tr>
-        <td>}"</td>
-        <td>"A JSON object holding data about the user who was added, including an ID:</td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""name"": ""Niklas"",</td>
-    </tr>
-    <tr>
-        <td>    ""favouriteMovies"": [</td>
-    </tr>
-    <tr>
-        <td>        ""Fight Club""</td>
-    </tr>
-    <tr>
-        <td>    ],</td>
-    </tr>
-    <tr>
-        <td>    ""id"": ""6f583c9e-ff2d-4460-9fb3-686f8b713395""</td>
+        <td>"A JSON object holding data about the user to add, structured like: { "name": "Niklas", "favouriteMovies":["62bb6d378bbd5f31e652ce02"] }"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID: { "name": "Niklas", "favouriteMovies": [ "62bb6d378bbd5f31e652ce02" ], "id": "6f583c9e-ff2d-4460-9fb3-686f8b713395"</td>
     </tr>
     <tr>
         <td>}"</td>
@@ -152,47 +75,8 @@
         <td>Update a user name</td>
         <td>/users/[id]</td>
         <td>PUT</td>
-        <td>"A JSON object holding data about the user name to change, structured like:</td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""name"":""Franz""</td>
-    </tr>
-    <tr>
-        <td>}"</td>
-        <td>"A JSON object holding data about the user who was added, including an ID:</td>
-    </tr>
-    <tr>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>    ""id"": ""1"",</td>
-    </tr>
-    <tr>
-        <td>    ""name"": {</td>
-    </tr>
-    <tr>
-        <td>        ""name"": ""Franz""</td>
-    </tr>
-    <tr>
-        <td>    },</td>
-    </tr>
-    <tr>
-        <td>    ""favouriteMovies"": [</td>
-    </tr>
-    <tr>
-        <td>        ""Pulp Fiction"",</td>
-    </tr>
-    <tr>
-        <td>        ""Insomnia""</td>
-    </tr>
-    <tr>
-        <td>    ]</td>
-    </tr>
-    <tr>
-        <td>}"</td>
+        <td>"A JSON object holding data about the user name to change, structured like: {  "name":"Franz" }"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID: {  "id": "62b8bbdfd5d3a510d08d42ed", "name": "Franz", "favouriteMovies": ["62b8a308d5d3a510d08d42e4",  "62b8a69ad5d3a510d08d42e8" ] }"</td>
     </tr>
     <tr>
         <td>Update favourite movie list</td>
