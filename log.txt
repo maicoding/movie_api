@@ -223,3 +223,7 @@
 ::1 - - [01/Jul/2022:23:09:15 +0000] "POST /users/Wandasonja/movies/62b8a405d5d3a510d08d42e5 HTTP/1.1" 200 174 "-" "PostmanRuntime/7.29.0"
 ::1 - - [01/Jul/2022:23:09:41 +0000] "DELETE /users/Wandasonja/movies/62b8a405d5d3a510d08d42e5 HTTP/1.1" 200 148 "-" "PostmanRuntime/7.29.0"
 ::1 - - [01/Jul/2022:23:09:54 +0000] "DELETE /users/Wandasonja/ HTTP/1.1" 200 23 "-" "PostmanRuntime/7.29.0"
+::1 - - [02/Jul/2022:07:20:02 +0000] "GET /movies/genre/Crime HTTP/1.1" 201 826 "-" "PostmanRuntime/7.29.0"
+::1 - - [02/Jul/2022:07:20:08 +0000] "GET /movies/Insomnia HTTP/1.1" 200 186 "-" "PostmanRuntime/7.29.0"
+::1 - - [02/Jul/2022:07:23:46 +0000] "GET /movies/genre/Crime HTTP/1.1" 201 826 "-" "PostmanRuntime/7.29.0"
+::1 - - [02/Jul/2022:07:25:35 +0000] "GET /movies/director/David%20Fincher HTTP/1.1" 200 872 "-" "PostmanRuntime/7.29.0"
