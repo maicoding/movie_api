@@ -68,61 +68,49 @@ app.get(
 );
 
 // Get one movie, by title
-app.get(
-  "/movies/:Title",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.findOne(
-      { Title: req.params.Title },
-      { Title: 1, Description: 1, _id: 0 }
-    )
-      .then((movie) => {
-        res.json(movie);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies/:Title", (req, res) => {
+  Movies.findOne(
+    { Title: req.params.Title },
+    { Description: 1, Genre: 1, Director: 1, _id: 0 }
+  )
+    .then((movie) => {
+      res.status(201).json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
-// Get movies by genre
-app.get(
-  "/movies/genre/:name",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.find(
-      { "Genre.Name": req.params.name },
-      { Title: 1, Description: 1, _id: 0 }
-    )
-      .then((movie) => {
-        res.status(201).json(movie);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+// Get details on a certain genre
+app.get("/movies/genre/:name", (req, res) => {
+  Movies.findOne(
+    { "Genre.Name": req.params.name },
+    { "Genre.Description": 1, _id: 0 }
+  )
+    .then((genre) => {
+      res.status(201).json(genre);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 // Get info about director, by director's name
-app.get(
-  "/movies/director/:Name",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.findOne(
-      { "Director.Name": req.params.Name },
-      { Director: 1, Bio: 1, _id: 0 }
-    )
-      .then((director) => {
-        res.json(director);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies/director/:Name", (req, res) => {
+  Movies.findOne(
+    { "Director.Name": req.params.Name },
+    { "Director.Bio": 1, "Director.Birth": 1, _id: 0 }
+  )
+    .then((director) => {
+      res.json(director);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 //Get all users
 app.get(
