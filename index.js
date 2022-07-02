@@ -1,157 +1,35 @@
-// IMPORTED MODULES
+// Importet modules
 const express = require("express"),
   morgan = require("morgan"),
   bodyParser = require("body-parser"),
   uuid = require("uuid"),
   fs = require("fs"),
-  path = require("path");
+  path = require("path"),
+  mongoose = require("mongoose"),
+  Models = require("./models");
+
 const app = express();
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
 
-//Define parameters
-let users = [
-  {
-    id: "1",
-    name: "Otti",
-    favouriteMovies: ["Pulp Fiction"],
-  },
-  {
-    id: "2",
-    name: "Sandy",
-    favouriteMovies: ["Fight Club"],
-  },
-];
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
 
-let movies = [
-  {
-    Title: "Pulp Fiction",
-    Director: {
-      Name: "Quentin Tarantino",
-    },
-    Genre: {
-      Name: "Crime",
-    },
-  },
-  {
-    Title: "Fight Club",
-    Director: {
-      Name: "David Fincher",
-    },
-    Genre: {
-      Name: "Crime",
-    },
-  },
-  {
-    Title: "Se7en",
-    Director: {
-      Name: "David Fincher",
-    },
-    Genre: {
-      Name: "Crime",
-    },
-  },
-  {
-    Title: "Kill Bill: Vol.1",
-    Director: {
-      Name: "Quentin Tarantino",
-    },
-    Genre: {
-      Name: "Crime",
-    },
-  },
-  {
-    Title: "Dead Poets Society",
-    Director: {
-      Name: "Peter Weir",
-    },
-    Genre: {
-      Name: "Drama",
-    },
-  },
-  {
-    Title: "The King's Speech",
-    Director: {
-      Name: "Tom Hooper",
-    },
-    Genre: {
-      Name: "Drama",
-    },
-  },
-  {
-    Title: "Insomnia",
-    Director: {
-      Name: "Christopher Nolan",
-    },
-    Genre: {
-      Name: "Thriller",
-    },
-  },
-  {
-    Title: "Lost in Translation",
-    Director: {
-      Name: "Sofia Coppola",
-    },
-    Genre: {
-      Name: "Comedy",
-    },
-  },
-  {
-    Title: "The Virgin Suicides",
-    Director: {
-      Name: "Sofia Coppola",
-    },
-    Genre: {
-      Name: "Drama",
-    },
-  },
-  {
-    Title: "Idiocracy",
-    Director: {
-      Name: "Mike Judge",
-    },
-    Genre: {
-      Name: "Comedy",
-    },
-  },
-];
+// Connect to MongoDB
+const Movies = Models.Movie;
+const Users = Models.User;
 
-let genres = [
-  {
-    name: "Drama",
-    description:
-      "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.",
-  },
-  {
-    name: "Crime",
-    description:
-      "Crime films, in the broadest sense, is a film genre inspired by and analogous to the crime fiction literary genre. Films of this genre generally involve various aspects of crime and its detection. Stylistically, the genre may overlap and combine with many other genres, such as drama or gangster film,[1] but also include comedy, and, in turn, is divided into many sub-genres, such as mystery, suspense or noir.",
-  },
-  {
-    name: "Thriller",
-    description:
-      "Thriller is a genre of fiction, having numerous, often overlapping subgenres. Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety.",
-  },
-
-  {
-    name: "Comedy",
-    description:
-      "A comedy film is a category of film which emphasizes humor. These films are designed to make the audience laugh through amusement.",
-  },
-];
-
-let directors = [
-  {
-    name: "David Fincher",
-    birthdate: "28.07.1962",
-    bio: "David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film.",
-  },
-];
+// Mongoose connection to database for CRUD operations
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // middleware serving static files
 app.use(express.static("public"));
@@ -166,114 +44,237 @@ app.get("/", (req, res) => {
   res.send("Welcome to Movie Info!");
 });
 
+// GET request to get documentation
 app.get("/documentation", (req, res) => {
-  res.sendFile("public/documentation.html");
+  res.sendFile("public/documentation.html", {
+    root: __dirname,
+  });
 });
 
 //Display all movies
-app.get("/movies", (req, res) => {
-  res.status(200).json(movies);
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Get one movie, by title
-app.get("/movies/:title", (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find((movie) => movie.Title === title);
-
-  if (movie) {
-    res.status(200).json(movie);
-  } else {
-    res.status(400).send("No such movie");
+app.get(
+  "/movies/:Title",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne(
+      { Title: req.params.Title },
+      { Title: 1, Description: 1, _id: 0 }
+    )
+      .then((movie) => {
+        res.json(movie);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
-});
+);
 
-// Get movie by genre
-app.get("/genres/:name", (req, res) => {
-  res.json(genres.find((genre) => genre.name === req.params.name));
-
-  if (genre) {
-    res.status(200).json(description);
-  } else {
-    res.status(400).send("There is no such genre.");
+// Get movies by genre
+app.get(
+  "/movies/genre/:name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find(
+      { "Genre.Name": req.params.name },
+      { Title: 1, Description: 1, _id: 0 }
+    )
+      .then((movie) => {
+        res.status(201).json(movie);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
-});
+);
 
-// get info about director, by director's name
-app.get("/directors/:Name", (req, res) => {
-  res.json(directors.find((director) => director.name === req.params.Name));
-
-  if (directors) {
-    res.status(200).json(directors);
-  } else {
-    res.status(400).send("No such directors");
+// Get info about director, by director's name
+app.get(
+  "/movies/director/:Name",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne(
+      { "Director.Name": req.params.Name },
+      { Director: 1, Bio: 1, _id: 0 }
+    )
+      .then((director) => {
+        res.json(director);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
-});
+);
+
+//Get all users
+app.get(
+  "/users",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.find()
+      .then((users) => {
+        res.status(201).json(users);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //Create new user
+/* JSON expected in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
 app.post("/users", (req, res) => {
-  const newUser = req.body;
-  if (newUser.name) {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).json(newUser);
-  } else {
-    res.status(400).send("user needs name");
-  }
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + "already exists");
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
 });
 
 //update user
-app.put("/users/:id", (req, res) => {
-  const { id } = req.params;
-  const updatedUser = req.body;
+// Update a user's info, by username
+/* JSON expected in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
+app.put("/users/:Username", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
 
-  let user = users.find((user) => user.id === id);
-  if (user) {
-    user.name = updatedUser;
-    res.status(200).json(user);
-  } else {
-    res.status(400).send("This user does not exist.");
-  }
+// Get user by username
+app.get("/users/:Username", (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //Add movie to favouriteMovies list
-app.put("/users/:id/favourite/:movieId", (req, res) => {
-  const { id, movieId } = req.params;
-
-  let user = users.find((user) => user.id === id);
-  if (user) {
-    user.favouriteMovies.push(movieId);
-    res.status(200).send(`${movieId} has been added to your favourite's list.`);
-  } else {
-    res.status(400).send("This user does not exist.");
-  }
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavouriteMovies: req.params.MovieID },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
-//Delete movie from user's favouriteMovies list
-app.delete("/users/:id/favourite/:movieId", (req, res) => {
-  const { id, movieId } = req.params;
-
-  let user = users.find((user) => user.id === id);
-  if (user) {
-    user.favouriteMovies = user.favouriteMovies.filter((id) => id !== movieId);
-    res
-      .status(200)
-      .send(`${movieId} has been removed from your favourite's list.`);
-  } else {
-    res.status(400).send("This user does not exist.");
-  }
+//Delete movie from favouriteMovies list
+app.delete("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $pull: { FavouriteMovies: req.params.MovieID },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
 //Delete user
-app.delete("/users/:id", (req, res) => {
-  const { id } = req.params;
-
-  let user = users.find((user) => user.id === id);
-  if (user) {
-    users = users.filter((user) => user.id !== id);
-    res.status(200).send(`user ${id} has been removed`);
-  } else {
-    res.status(400).send("This user does not exist.");
-  }
+app.delete("/users/:Username", (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + " was not found");
+      } else {
+        res.status(200).send(req.params.Username + " was deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //error-handling

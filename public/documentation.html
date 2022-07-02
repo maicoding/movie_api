@@ -1,13 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>Movie API Documentation</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>MyFlix Api</title>
   </head>
-
-  <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
-  </body>
+</html>
+<body>
+  <header>
+  </header>
+  <main>
+  <h1>A new movie api is created here.</h1>
+  <table>
+    <tr>
+        <td>Request</td>
+        <td>URL HTTP</td>
+        <td>Method</td>
+        <td>Request body data format</td>
+        <td>Response body data format</td>
+    </tr>
+    <tr>
+        <td>Get a list of movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about all the movies</td>
+    </tr>
+    <tr>
+        <td>Get data about a single movie by title</td>
+        <td>/movies/[Title]</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>"A JSON object holding data about a single movie, containing a title and description. Example: { "Title": "Insomnia", "Description": "Two Los Angeles homicide detectives are dispatched to a northern town where the sun doesn't set to investigate the methodical murder of a local teen." } "</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Get information on a movie genre</td>
+        <td>/genres/[genre]</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>"A JSON object holding data all movies of a certain genre, containing a title, and a description. Example: { "Title": "Insomnia", "Description": "Two Los Angeles homicide detectives are dispatched to a northern town where the sun doesn't set to investigate the methodical murder of a local teen."</td>
+    </tr>
+    <tr>
+        <td>Get information on a single director by name</td>
+        <td>/directors/[name]</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>"A JSON object holding data about a director, containing a name, a birth year and biographical information. Example: { "name": "David Fincher", "birtt": "1962", "bio": "David Fincher is an American filmmaker and director. He is known for his work in the genre of crime film."}"</td>
+    </tr>
+    <tr>
+        <td>Get a list of all users</td>
+        <td>/users</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about all users</td>
+    </tr>
+    <tr>
+        <td>Add a user</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>"A JSON object holding data about the user to add, structured like: { "name": "Niklas", "favouriteMovies":["62bb6d378bbd5f31e652ce02"] }"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID: { "name": "Niklas", "favouriteMovies": [ "62bb6d378bbd5f31e652ce02" ], "id": "6f583c9e-ff2d-4460-9fb3-686f8b713395"</td>
+    </tr>
+    <tr>
+        <td>}"</td>
+    </tr>
+    <tr>
+        <td>Update a user name</td>
+        <td>/users/[id]</td>
+        <td>PUT</td>
+        <td>"A JSON object holding data about the user name to change, structured like: {  "name":"Franz" }"</td>
+        <td>"A JSON object holding data about the user who was added, including an ID: {  "id": "62b8bbdfd5d3a510d08d42ed", "name": "Franz", "favouriteMovies": ["62b8a308d5d3a510d08d42e4",  "62b8a69ad5d3a510d08d42e8" ] }"</td>
+    </tr>
+    <tr>
+        <td>Update favourite movie list</td>
+        <td>/users/[id]/favourite/[movieId]</td>
+        <td>PUT</td>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully added</td>
+    </tr>
+    <tr>
+        <td>Delete movie from favourite movie list</td>
+        <td>/users/[id]/favourite/[movieId]</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully deleted</td>
+    </tr>
+    <tr>
+        <td>Delete a user by ID</td>
+        <td>/users/[id]</td>
+        <td></td>
+        <td>None</td>
+        <td>A text message confirming that the user was deleted</td>
+    </tr>
+</table>
+</main>
+<footer>
+</footer>
+</body>
 </html>
