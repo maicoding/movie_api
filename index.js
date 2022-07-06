@@ -37,16 +37,10 @@ const Users = Models.User;
   useUnifiedTopology: true,
 });*/
 
-// Mongoose connection to database for CRUD operations
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
-/*mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});*/
 
 // middleware serving static files
 app.use(express.static("public"));
