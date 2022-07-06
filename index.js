@@ -24,11 +24,15 @@ require("./passport");
 // Connect to MongoDB
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
 
 // Mongoose connection to database for CRUD operations
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+/*mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});*/
+
+// Mongoose connection to database for CRUD operations
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
