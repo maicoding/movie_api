@@ -358,3 +358,12 @@
 ::1 - - [04/Jul/2022:09:56:11 +0000] "GET /director/David%20Fincher HTTP/1.1" 201 859 "-" "PostmanRuntime/7.29.0"
 ::1 - - [04/Jul/2022:09:56:28 +0000] "GET /Genre/Crime HTTP/1.1" 201 441 "-" "PostmanRuntime/7.29.0"
 ::1 - - [04/Jul/2022:09:59:52 +0000] "GET /Genre/Crime HTTP/1.1" 201 441 "-" "PostmanRuntime/7.29.0"
+::1 - - 
+::1 - - [06/Jul/2022:12:12:45 +0000] "GET /movies/insomnia HTTP/1.1" 201 613 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:12:59 +0000] "GET /directors/David%20Fincher HTTP/1.1" 201 859 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:14:22 +0000] "GET /genres/Comedy HTTP/1.1" 201 242 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:14:45 +0000] "GET /genres/crime HTTP/1.1" 500 67 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:14:53 +0000] "GET /genres/Crime HTTP/1.1" 201 441 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:16:37 +0000] "GET /movies/insomnia HTTP/1.1" 201 4 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:16:50 +0000] "GET /movies/Insomnia HTTP/1.1" 201 4 "-" "PostmanRuntime/7.29.0"
+::1 - - [06/Jul/2022:12:17:26 +0000] "GET /movies/Insomnia HTTP/1.1" 201 799 "-" "PostmanRuntime/7.29.0"
