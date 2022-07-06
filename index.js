@@ -37,16 +37,10 @@ const Users = Models.User;
   useUnifiedTopology: true,
 });*/
 
-// Mongoose connection to database for CRUD operations
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
-/*mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});*/
 
 // middleware serving static files
 app.use(express.static("public"));
@@ -324,6 +318,7 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
