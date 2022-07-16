@@ -31,12 +31,6 @@ const { check, validationResult } = require("express-validator");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-//Mongoose connection to database for CRUD operations
-/*mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});*/
-
 mongoose.connect(
   "mongodb+srv://maicoding:monwinter889@maidbs.klgwngy.mongodb.net/myFlixDB?retryWrites=true&w=majority",
   {
